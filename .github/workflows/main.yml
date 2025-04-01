@@ -19,4 +19,6 @@ jobs:
       - name: 'Working'
         env:
           PUSHDEER: ${{ secrets.PUSHDEER }}
+          SSYCYX: ${{ secrets.SSYCYX }}
+          CPS: ${{ secrets.CPS }}
         run: python ./main.py
