@@ -2,7 +2,7 @@ from pypushdeer import PushDeer
 import os
 push_key = os.environ["PUSHDEER"]
 ssycyx = os.environ["SSYCYX"]
-cps = os.environ["CPS_ID"]
+cps = os.environ["CPS"]
 import requests
 import time
 import io,sys
