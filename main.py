@@ -41,7 +41,7 @@ class Danmu():
 #         print(upname)
         if status!=1:
             # print("未开播")
-			pushdeer.send_text("未开播"+self.upname+"直播间")
+	    pushdeer.send_text("未开播"+self.upname+"直播间")
             return
         # 解析弹幕列表
         for content in html['data']['room']:
