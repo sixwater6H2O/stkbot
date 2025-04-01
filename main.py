@@ -88,7 +88,8 @@ while True:
                          headers=hders, data=islive_data).json()['data']
     status = info['live_status']
     if status!=1:
-        pushdeer.send_text(ssycyx+"开播了！", desp="直播标题"+info['title'])
+        pushdeer.send_text(ssycyx+"开播了！", desp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
++"\n直播标题："+info['title'])
     break
     for live in livehouse:
         live.get_danmu()
