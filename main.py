@@ -6,7 +6,7 @@ pushdeer = PushDeer(pushkey=push_key)
 ##测试存活时间
 i = 10
 while (i):
-    msg = "倒计时：" + i
+    msg = "倒计时：" + str(i)
     pushdeer.send_text("倒计时", desp=msg)
     i-=1
     sleep(1)
