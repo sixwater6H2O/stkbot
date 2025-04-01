@@ -1,13 +1,23 @@
 from pypushdeer import PushDeer
 import os
 push_key = os.environ["PUSHDEER"]
-ssycyx = os.environ["SSYCYX"]
+sansheng = os.environ["SSYCYX"].split(',')
 cps = os.environ["CPS"]
+ssycyx = sansheng[0]
+ss_room = sansheng[1]
 import requests
 import time
 import io,sys
 
 pushdeer = PushDeer(pushkey=push_key)
+
+hders = {
+            'Host': 'api.live.bilibili.com',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0',
+        }
+islive_data = {
+            'room_id': ss_room,
+        }
     
 class Danmu():
     def __init__(self, roomid,upname):
@@ -40,7 +50,7 @@ class Danmu():
         status = info['live_status']
 #         print(upname)
         if status!=1:
-            pushdeer.send_text("未开播"+self.upname+"直播间")
+            # pushdeer.send_text("未开播"+self.upname+"直播间")
             return
         # 解析弹幕列表
         for content in html['data']['room']:
@@ -71,10 +81,18 @@ for i in range(len(cps_id)):
     roomid = cps_id[i]
     upname = cps_name[i]
     livehouse.append(Danmu(roomid, upname))
-i = 1
-while i<=1:
-    i += 1
+    
+start_time = time.time()
+while True:
+    info = requests.post(url="https://api.live.bilibili.com/room/v1/Room/get_info",
+                         headers=hders, data=islive_data).json()['data']
+    status = info['live_status']
+    if status!=1:
+        pushdeer.send_text(ssycyx+"开播了！", desp=info['description'])
+    break
     for live in livehouse:
         live.get_danmu()
-        time.sleep(5)
+        time.sleep(1)
+    if (time.time()-start_time > 59*60*24):
+        break
  
