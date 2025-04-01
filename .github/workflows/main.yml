@@ -1,0 +1,25 @@
+name: 'stkbot'
+
+on:
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  leetcode-weekly:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+      - name: 'Set up Python'
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: 'Install requirements'
+        run: pip install -r stkbot/requirements.txt
+      - name: 'Working'
+        env:
+          SCKEY: ${{ secrets.PUSHDEER }}
+        run: python stkbot/main.py
