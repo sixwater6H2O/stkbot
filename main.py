@@ -81,14 +81,18 @@ for i in range(len(cps_id)):
     roomid = cps_id[i]
     upname = cps_name[i]
     livehouse.append(Danmu(roomid, upname))
-    
+
+from datetime import datetime, timedelta
 start_time = time.time()
 while True:
     info = requests.post(url="https://api.live.bilibili.com/room/v1/Room/get_info",
                          headers=hders, data=islive_data).json()['data']
     status = info['live_status']
     if status!=1:
-        pushdeer.send_text(ssycyx+"开播了！", desp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        utc_time = datetime.utcnow()
+        # 将UTC时间转换为北京时间，即UTC+8
+        beijing_time = utc_time + timedelta(hours=8)
+        pushdeer.send_text(ssycyx+"开播了！", desp=beijing_time
 +"\n直播标题："+info['title'])
     break
     for live in livehouse:
