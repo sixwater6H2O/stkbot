@@ -1,5 +1,6 @@
 from pypushdeer import PushDeer
 import os
+import time
 push_key = os.environ["PUSHDEER"]
 pushdeer = PushDeer(pushkey=push_key)
 
@@ -9,7 +10,7 @@ while (i):
     msg = "倒计时：" + str(i)
     pushdeer.send_text("倒计时", desp=msg)
     i-=1
-    sleep(1)
+    time.sleep(1)
     
 # pushdeer.send_markdown("# hello world", desp="**optional** description in markdown")
 # pushdeer.send_image("https://github.com/easychen/pushdeer/raw/main/doc/image/clipcode.png")
