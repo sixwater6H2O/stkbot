@@ -85,18 +85,21 @@ for i in range(len(cps_id)):
 from datetime import datetime, timedelta
 start_time = time.time()
 while True:
-    info = requests.post(url="https://api.live.bilibili.com/room/v1/Room/get_info",
+    try:
+        info = requests.post(url="https://api.live.bilibili.com/room/v1/Room/get_info",
                          headers=hders, data=islive_data).json()['data']
-    status = info['live_status']
-    if status==1:
-        utc_time = datetime.utcnow()
+        status = info['live_status']
+        if status==1:
+            utc_time = datetime.utcnow()
         # 将UTC时间转换为北京时间，即UTC+8
-        beijing_time = utc_time + timedelta(hours=8)
-        pushdeer.send_text(ssycyx+"开播了！", desp=beijing_time.strftime('%Y-%m-%d %H:%M:%S')
+            beijing_time = utc_time + timedelta(hours=8)
+            pushdeer.send_text(ssycyx+"开播了！", desp=beijing_time.strftime('%Y-%m-%d %H:%M:%S')
 +"\n直播标题："+info['title'])
-    for live in livehouse:
-        live.get_danmu()
-        time.sleep(3)
-    if (time.time()-start_time > 59*60*24):
-        break
+        for live in livehouse:
+            live.get_danmu()
+            time.sleep(3)
+        if (time.time()-start_time > 59*60*24):
+            break
+    except:
+        continue
  
