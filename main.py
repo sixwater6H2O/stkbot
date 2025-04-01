@@ -92,7 +92,7 @@ while True:
         utc_time = datetime.utcnow()
         # 将UTC时间转换为北京时间，即UTC+8
         beijing_time = utc_time + timedelta(hours=8)
-        pushdeer.send_text(ssycyx+"开播了！", desp=beijing_time
+        pushdeer.send_text(ssycyx+"开播了！", desp=beijing_time.strftime('%Y-%m-%d %H:%M:%S')
 +"\n直播标题："+info['title'])
     break
     for live in livehouse:
