@@ -2,10 +2,12 @@ name: 'stkbot'
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '30 13 * * *'
 
 
 jobs:
-  leetcode-weekly:
+  stk-start:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
