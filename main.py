@@ -5,10 +5,11 @@ pushdeer = PushDeer(pushkey=push_key)
 
 ##测试存活时间
 i = 10
-while (i--):
+while (i):
     msg = "倒计时：" + i
     pushdeer.send_text("倒计时", desp=msg)
-    sleep(60)
+    i-=1
+    sleep(1)
     
 # pushdeer.send_markdown("# hello world", desp="**optional** description in markdown")
 # pushdeer.send_image("https://github.com/easychen/pushdeer/raw/main/doc/image/clipcode.png")
