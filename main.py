@@ -98,7 +98,7 @@ while True:
             ssislive = 0
         for live in livehouse:
             live.get_danmu()
-            time.sleep(3)
+            time.sleep(1)
         if (time.time()-start_time > 59*60*6):
             break
     except:
