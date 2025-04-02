@@ -63,7 +63,15 @@ class Danmu():
                 # 记录发言
             msg = timeline + ' ' + nickname + ': ' + text
 #             print(self.upname + ":"+ msg)
-            if ssycyx in msg :
+            if self.upname==ssycyx:
+                if nickname in cps_name:
+                # 获取发言
+                    if msg not in self.danmuset:
+                        pushdeer.send_text(nickname+"来了", desp=msg)
+                        self.danmuset.append(msg)
+                    if len(self.danmuset)>50:
+                        self.danmuset = self.danmuset[1:]
+            if ssycyx in nickname :
                 # 获取发言
                 if msg not in self.danmuset:
                     pushdeer.send_text("马在发弹幕："+self.upname+"直播间", desp=msg)
@@ -76,6 +84,8 @@ class Danmu():
 cps_list = cps.split(',')
 cps_id = cps_list[::2]
 cps_name = cps_list[1::2]
+cps_id.append(ss_room)
+cps_name.append(ssycyx)
 livehouse = []
 for i in range(len(cps_id)):
     roomid = cps_id[i]
