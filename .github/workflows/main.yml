@@ -3,7 +3,7 @@ name: 'stkbot'
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 13 * * *'
+    - cron: '0 02/6 * * *'
 
 
 jobs:
