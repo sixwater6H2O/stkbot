@@ -111,6 +111,7 @@ while True:
             time.sleep(1)
         if (time.time()-start_time > 59*60*6):
             break
-    except:
+    except Exception as e:
+        pushdeer.send_text("抓马代码报错", desp=str(e))
         continue
  
