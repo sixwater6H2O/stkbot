@@ -109,7 +109,8 @@ while True:
         for live in livehouse:
             live.get_danmu()
             time.sleep(1)
-        if (time.time()-start_time > 59*60*6):
+        if (time.time()-start_time > 60*60*5):
+            pushdeer.send_text("运行结束", desp="请检查下次定时是否正常开始")
             break
     except Exception as e:
         # pushdeer.send_text("抓马代码报错", desp=str(e))
