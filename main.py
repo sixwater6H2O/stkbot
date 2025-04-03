@@ -1,6 +1,7 @@
 from pypushdeer import PushDeer
 import os
 push_key = os.environ["PUSHDEER"]
+serverchan_key = os.environ["SERVERCHAN"]
 sansheng = os.environ["SSYCYX"].split(',')
 cps = os.environ["CPS"]
 ssycyx = sansheng[0]
@@ -67,18 +68,52 @@ class Danmu():
                 if nickname in cps_name:
                 # 获取发言
                     if msg not in self.danmuset:
-                        pushdeer.send_text(nickname+"来了", desp=msg)
+                        title = nickname+"来了"
+                        desp = msg
+                        pushdeer.send_text(title, desp=desp)
+                        sc_send(serverchan_key, title, desp)
                         self.danmuset.append(msg)
                     if len(self.danmuset)>50:
                         self.danmuset = self.danmuset[1:]
             if ssycyx in nickname :
                 # 获取发言
                 if msg not in self.danmuset:
-                    pushdeer.send_text("马在发弹幕："+self.upname+"直播间", desp=msg)
+                    title = "马在发弹幕："+self.upname+"直播间"
+                    desp = msg
+                    pushdeer.send_text(title, desp=desp)
+                    sc_send(serverchan_key, title, desp)
                     self.danmuset.append(msg)
                 if len(self.danmuset)>50:
                     self.danmuset = self.danmuset[1:]
- 
+
+import os
+import requests
+import re
+
+def sc_send(sendkey, title, desp='', options=None):
+    if options is None:
+        options = {}
+    # 判断 sendkey 是否以 'sctp' 开头，并提取数字构造 URL
+    if sendkey.startswith('sctp'):
+        match = re.match(r'sctp(\d+)t', sendkey)
+        if match:
+            num = match.group(1)
+            url = f'https://{num}.push.ft07.com/send/{sendkey}.send'
+        else:
+            raise ValueError('Invalid sendkey format for sctp')
+    else:
+        url = f'https://sctapi.ftqq.com/{sendkey}.send'
+    params = {
+        'title': title,
+        'desp': desp,
+    }
+    headers = {
+        'Content-Type': 'application/json;charset=utf-8'
+    }
+    response = requests.post(url, json=params, headers=headers)
+    result = response.json()
+    return result
+
 
 # 创建bDanmu实例
 cps_list = cps.split(',')
@@ -95,7 +130,10 @@ for i in range(len(cps_id)):
 from datetime import datetime, timedelta
 start_time = time.time()
 ssislive = 0
-pushdeer.send_text("运行开始", desp="可以手动关闭上次运行了")
+title = "运行开始"
+desp = "可以手动关闭上次运行了"
+pushdeer.send_text(title, desp=desp)
+sc_send(serverchan_key, title, desp)
 while True:
     try:
         info = requests.post(url="https://api.live.bilibili.com/room/v1/Room/get_info",
@@ -103,15 +141,20 @@ while True:
         status = info['live_status']
         if status==1 and ssislive==0:
             ssislive = 1
-            pushdeer.send_text(ssycyx+"开播了！", desp=info['live_time']
-+"\n直播标题："+info['title'])
+            title = ssycyx+"开播了！"
+            desp = info['live_time']+"\n直播标题："+info['title']
+            pushdeer.send_text(title, desp=desp)
+            sc_send(serverchan_key, title, desp)
         if status==0 and ssislive==1:
             ssislive = 0
         for live in livehouse:
             live.get_danmu()
             time.sleep(1)
         if (time.time()-start_time > 60*60*5):
-            pushdeer.send_text("运行结束", desp="请检查下次定时是否正常开始")
+            title = "运行结束"
+            desp = "请检查下次定时是否正常开始"
+            pushdeer.send_text(title, desp=desp)
+            sc_send(serverchan_key, title, desp)
             break
     except Exception as e:
         # pushdeer.send_text("抓马代码报错", desp=str(e))
