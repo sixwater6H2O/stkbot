@@ -24,4 +24,5 @@ jobs:
           PUSHDEER: ${{ secrets.PUSHDEER }}
           SSYCYX: ${{ secrets.SSYCYX }}
           CPS: ${{ secrets.CPS_ID }}
+          SERVERCHAN: ${{ secrets.SERVERCHAN }}
         run: python ./main.py
