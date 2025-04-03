@@ -150,7 +150,7 @@ while True:
         for live in livehouse:
             live.get_danmu()
             time.sleep(1)
-        if (time.time()-start_time > 60*60*5):
+        if (time.time()-start_time > 60*60*4):
             title = "运行结束"
             desp = "请检查下次定时是否正常开始"
             pushdeer.send_text(title, desp=desp)
