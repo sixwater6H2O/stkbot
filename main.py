@@ -95,6 +95,7 @@ for i in range(len(cps_id)):
 from datetime import datetime, timedelta
 start_time = time.time()
 ssislive = 0
+pushdeer.send_text("运行开始", desp="可以手动关闭上次运行了")
 while True:
     try:
         info = requests.post(url="https://api.live.bilibili.com/room/v1/Room/get_info",
